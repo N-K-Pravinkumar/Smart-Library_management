@@ -1,8 +1,9 @@
 package com.wecodee.library.management.model;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
@@ -10,11 +11,22 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class BorrowRecord {
-    private long studentId;
-    private long bookId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long BorrowId;
+
+    @ManyToOne
+    @JoinColumn(name = "userId", nullable = false)
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "bookId", nullable = false)
+    private Book book;
     private LocalDate borrowDate;
     private LocalDate returnDate;
+    private int overDueDays;
     private double fine;
 
 }
