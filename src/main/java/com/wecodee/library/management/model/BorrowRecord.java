@@ -18,8 +18,8 @@ public class BorrowRecord {
     private long BorrowId;
 
     @ManyToOne
-    @JoinColumn(name = "studentId", nullable = false)
-    private User student;
+    @JoinColumn(name = "userId", nullable = false)
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "bookId", nullable = false)

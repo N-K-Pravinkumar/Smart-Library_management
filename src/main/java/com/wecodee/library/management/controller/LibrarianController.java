@@ -1,10 +1,8 @@
 package com.wecodee.library.management.controller;
 
-import com.wecodee.library.management.dto.BookDto;
 import com.wecodee.library.management.model.BorrowRecord;
 import com.wecodee.library.management.model.User;
 import com.wecodee.library.management.service.LibrarianService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,8 +12,7 @@ import java.util.Map;
 @RequestMapping("/librarian")
 public class LibrarianController {
 
-    @Autowired
-    private LibrarianService librarianService;
+    public LibrarianService librarianService;
 
     @GetMapping("/home")
     public Map<String, Object> home() {

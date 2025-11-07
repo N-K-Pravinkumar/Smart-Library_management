@@ -4,9 +4,10 @@ import com.wecodee.library.management.dto.BookDto;
 import com.wecodee.library.management.model.Book;
 import com.wecodee.library.management.model.BorrowRecord;
 import com.wecodee.library.management.model.User;
+import com.wecodee.library.management.repository.AuthRepository;
 import com.wecodee.library.management.repository.BookRepository;
 import com.wecodee.library.management.repository.BorrowRepository;
-import com.wecodee.library.management.repository.UserRepository;
+import com.wecodee.library.management.repository.AuthRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 public class LibrarianService {
 
     @Autowired
-    private UserRepository userRepository;
+    private AuthRepository authRepository;
 
     @Autowired
     private BookRepository bookRepository;
@@ -47,7 +48,7 @@ public class LibrarianService {
     }
 
     public List<User> getAllStudentsSorted(String sortBy) {
-        List<User> students = userRepository.findAll();
+        List<User> students = authRepository.findAll();
 
         if (sortBy == null) return students;
 
@@ -56,7 +57,7 @@ public class LibrarianService {
                 students.sort(Comparator.comparing(User::getUserName));
                 break;
             case "userid":
-                students.sort(Comparator.comparing(User::getUserid));
+                students.sort(Comparator.comparing(User::getUserId));
                 break;
             case "phonenumber":
                 students.sort(Comparator.comparing(User::getPhoneNumber));
@@ -90,7 +91,7 @@ public class LibrarianService {
 
     public List<BorrowRecord> getBorrowHistoryForStudent(Long studentId) {
         return borrowRepository.findAll().stream()
-                .filter(record -> record.getStudent() != null && record.getStudent().getUserid()==(studentId))
+                .filter(record -> record.getUser() != null && record.getUser().getUserId()==(studentId))
                 .collect(Collectors.toList());
     }
 
@@ -101,7 +102,7 @@ public class LibrarianService {
 
     public List<BorrowRecord> getBorrowRecordsByStudents(List<Long> studentIds) {
         return borrowRepository.findAll().stream()
-                .filter(record -> studentIds.contains(record.getStudent().getUserid()))
+                .filter(record -> studentIds.contains(record.getUser().getUserId()))
                 .collect(Collectors.toList());
     }
 }

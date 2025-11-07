@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface BorrowRepository extends JpaRepository<BorrowRecord,Long> {
 
-    List<BorrowRecord> findByStudent_Id(Long studentId);
-    Optional<BorrowRecord> findByBook_BookIdAndStudent_IdAndReturnDateIsNull(Long bookId, Long studentId);
+    List<BorrowRecord> findByUser_UserId(Long userId);
+    Optional<BorrowRecord> findByBook_BookIdAndUser_UserIdAndReturnDateIsNull(Long bookId, Long userId);
 
 }

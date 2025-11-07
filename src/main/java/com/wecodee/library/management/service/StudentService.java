@@ -6,7 +6,7 @@ import com.wecodee.library.management.model.BorrowRecord;
 import com.wecodee.library.management.model.User;
 import com.wecodee.library.management.repository.BookRepository;
 import com.wecodee.library.management.repository.BorrowRepository;
-import com.wecodee.library.management.repository.UserRepository;
+import com.wecodee.library.management.repository.AuthRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +25,7 @@ public class StudentService {
     private BorrowRepository borrowRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private AuthRepository authRepository;
 
     public List<BookDto> getListOfBook() {
         return bookRepository.findAll()
@@ -52,11 +52,11 @@ public class StudentService {
             return "Book is already borrowed by another student.";
         }
 
-        User student = userRepository.findById(studentId)
+        User student = authRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found with Id: " + studentId));
 
         BorrowRecord record = new BorrowRecord();
-        record.setStudent(student);
+        record.setUser(student);
         record.setBook(book);
         record.setBorrowDate(LocalDate.now());
         record.setFine(0);
@@ -74,7 +74,7 @@ public class StudentService {
                 .orElseThrow(() -> new RuntimeException("Book not found with Id: " + bookId));
 
         BorrowRecord record = borrowRepository
-                .findByBook_BookIdAndStudent_IdAndReturnDateIsNull(bookId, studentId)
+                .findByBook_BookIdAndUser_UserIdAndReturnDateIsNull(bookId, studentId)
                 .orElseThrow(() -> new RuntimeException("No active borrow found for this book."));
 
         record.setReturnDate(LocalDate.now());
@@ -96,6 +96,6 @@ public class StudentService {
     }
 
     public List<BorrowRecord> getBorrowHistory(Long studentId) {
-        return borrowRepository.findByStudent_Id(studentId);
+        return borrowRepository. findByUser_UserId(studentId);
     }
 }
