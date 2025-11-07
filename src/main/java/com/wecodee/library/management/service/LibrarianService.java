@@ -90,9 +90,10 @@ public class LibrarianService {
 
     public List<BorrowRecord> getBorrowHistoryForStudent(Long studentId) {
         return borrowRepository.findAll().stream()
-                .filter(record -> record.getStudentId() == studentId)
+                .filter(record -> record.getStudent() != null && record.getStudent().getUserid()==(studentId))
                 .collect(Collectors.toList());
     }
+
 
     public List<BorrowRecord> getAllBorrowRecords() {
         return borrowRepository.findAll();
@@ -100,7 +101,7 @@ public class LibrarianService {
 
     public List<BorrowRecord> getBorrowRecordsByStudents(List<Long> studentIds) {
         return borrowRepository.findAll().stream()
-                .filter(record -> studentIds.contains(record.getStudentId()))
+                .filter(record -> studentIds.contains(record.getStudent().getUserid()))
                 .collect(Collectors.toList());
     }
 }
