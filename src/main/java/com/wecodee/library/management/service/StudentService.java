@@ -24,7 +24,7 @@ public class StudentService {
     public  List<BookDto> getListOfBook() {
         return bookRepository.findByBorrowFalse()
                 .stream()
-                .filter(book -> !book.isBorrowed())
+                //.filter(book -> !book.isBorrowed())
                 .map(this::convertToBookDto).collect(Collectors.toList());
     }
 
@@ -55,7 +55,6 @@ public class StudentService {
         record.setFine(0);
 
         return "Book Borrowed Successfully";
-
     }
 
     public String returnBook(long bookId, long studentId) {
@@ -71,8 +70,8 @@ public class StudentService {
         bookRepository.save(book);
         record.setReturnDate(LocalDate.now());
         long days= ChronoUnit.DAYS.between(record.getBorrowDate(), record.getReturnDate());
-        if (days>14) {
-            double fine=(days-14)*2;
+        if (days>2) {
+            double fine=(days-2)*10;
             record.setFine(fine);
         }else {
             record.setFine(0);
@@ -84,7 +83,5 @@ public class StudentService {
         return borrowRepository.findByStudentId(studentId);
     }
 
-    public List<BorrowRecord> getAllBorrowRecords() {
-        return borrowRepository.findAll();
-    }
+
 }
