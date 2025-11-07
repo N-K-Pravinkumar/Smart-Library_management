@@ -19,11 +19,6 @@ public class StudentController {
         return "Welcome to Smart library Management";
     }
 
-    @GetMapping("/books")
-    public List<BookDto> booklist(){
-        return studentService.getListOfBook();
-    }
-
     @PostMapping("/borrow/{bookId}")
     public String borrowBook(@PathVariable long bookId,@RequestParam long studentId){
         return studentService.borrowBook(bookId,studentId);

@@ -27,15 +27,6 @@ public class LibrarianController {
         return librarianService.getAllStudentsSorted(sortBy);
     }
 
-    @GetMapping("/books")
-    public List<BookDto> getBooks(
-            @RequestParam(required = false) Long bookId,
-            @RequestParam(required = false) String bookName,
-            @RequestParam(required = false) String author,
-            @RequestParam(required = false) Boolean borrowed
-    ) {
-        return librarianService.getBooks(bookId, bookName, author, borrowed);
-    }
 
     @GetMapping("/borrow-return")
     public List<BorrowRecord> getBorrowReturnRecords(@RequestParam(required = false) Long studentId) {
